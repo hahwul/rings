@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = "CLI Based Project manager"
   spec.description = "CLI Based Project manager"
-  spec.homepage = "https://www.hahwul.com"
+  spec.homepage = "https://github.com/hahwul/rings"
   spec.required_ruby_version = ">= 2.6.0"
   spec.license = 'MIT'
 
