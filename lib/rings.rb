@@ -2,6 +2,7 @@
 
 require_relative 'rings/version'
 require_relative 'rings/config'
+require_relative 'rings/orm'
 require 'thor'
 require 'yaml'
 
@@ -16,17 +17,24 @@ module Rings
     def init
       puts 'Init mode'
       if File.exist? Rings::DEFAULT_CONFIG[:base]
-        puts "Exist basepath #{Rings::DEFAULT_CONFIG[:base]}"
+        puts "Exist basepath in #{Rings::DEFAULT_CONFIG[:base]}"
       else
         puts "Create a basepath in #{Rings::DEFAULT_CONFIG[:base]}"
         Dir.mkdir Rings::DEFAULT_CONFIG[:base]
       end
 
       if File.exist? Rings::DEFAULT_CONFIG[:config]
-        puts "Exist default config #{Rings::DEFAULT_CONFIG[:config]}"
+        puts "Exist default config in #{Rings::DEFAULT_CONFIG[:config]}"
       else
         puts "Create a default config in #{Rings::DEFAULT_CONFIG[:config]}"
         File.write Rings::DEFAULT_CONFIG[:config], Rings::DEFAULT_CONFIG.to_yaml
+      end
+
+      if File.exist? "#{Rings::DEFAULT_CONFIG[:db]}"
+        puts "Exist database file in #{Rings::DEFAULT_CONFIG[:db]}"
+      else
+        RingsDB::init
+        puts "Create a database file in #{Rings::DEFAULT_CONFIG[:db]}"
       end
         
       workspace = options.workspace
@@ -41,17 +49,20 @@ module Rings
     end
 
     desc 'new', 'Generate New Project'
-    def new
+    def new(name)
       config = options.config
       config = Rings::DEFAULT_CONFIG[:config] if options.config == ''
-      
+
       workspace = options.workspace
       workspace = Rings::DEFAULT_CONFIG[:workspace] if workspace == ''
+
+      RingsDB::new name
     end
 
     desc 'list', 'Show Projects list'
     def list
       puts 'List mode'
+      RingsDB::list
     end
 
     desc 'version', 'Show version.'
