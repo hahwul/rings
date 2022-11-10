@@ -10,24 +10,43 @@ module Rings
 
   class CLI < Thor
     class_option :config, aliases: :c, default: '', type: :string, desc: 'Set configration file'
+    class_option :workspace, aliases: :w, default: '', type: :string, desc: 'Workspace'
+
+    desc 'init', 'Initialize config and workspace'
+    def init
+      puts 'Init mode'
+      if File.exist? Rings::DEFAULT_CONFIG[:base]
+        puts "Exist basepath #{Rings::DEFAULT_CONFIG[:base]}"
+      else
+        puts "Create a basepath in #{Rings::DEFAULT_CONFIG[:base]}"
+        Dir.mkdir Rings::DEFAULT_CONFIG[:base]
+      end
+
+      if File.exist? Rings::DEFAULT_CONFIG[:config]
+        puts "Exist default config #{Rings::DEFAULT_CONFIG[:config]}"
+      else
+        puts "Create a default config in #{Rings::DEFAULT_CONFIG[:config]}"
+        File.write Rings::DEFAULT_CONFIG[:config], Rings::DEFAULT_CONFIG.to_yaml
+      end
+        
+      workspace = options.workspace
+      workspace = Rings::DEFAULT_CONFIG[:workspace] if workspace == ''
+
+      if File.exist? workspace
+        puts "Exist workspace #{workspace}"
+      else
+        puts "Create a workspace in #{workspace}"
+        Dir.mkdir workspace
+      end
+    end
 
     desc 'new', 'Generate New Project'
     def new
-      puts 'New mode'
-      path = options.config
-      path = "#{Dir.home}/.config/rings/default.yaml" if options.config == ''
-      if File.exist? path
-        puts "exist #{path}"
-      else
-        puts "Create a default config in #{path}"
-        base_path = Rings::DEFAULT_CONFIG[:base_path]
-        if File.exist? base_path
-          puts "Found #{base_path} dir for base-path"
-        else
-          puts "Create a base-path in #{base_path}"
-        end
-      end
-      puts Rings::DEFAULT_CONFIG.to_yaml
+      config = options.config
+      config = Rings::DEFAULT_CONFIG[:config] if options.config == ''
+      
+      workspace = options.workspace
+      workspace = Rings::DEFAULT_CONFIG[:workspace] if workspace == ''
     end
 
     desc 'list', 'Show Projects list'

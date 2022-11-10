@@ -2,7 +2,8 @@
 
 module Rings
   DEFAULT_CONFIG = {
-    base_path: "#{Dir.home}/.config/rings/base_path/"
-
+    workspace: "#{Dir.home}/.rings/workspace/",
+    config: "#{Dir.home}/.rings/default.yml",
+    base: "#{Dir.home}/.rings/"
   }.freeze
 end
