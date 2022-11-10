@@ -12,3 +12,7 @@ gem 'rspec', '~> 3.0'
 gem 'thor'
 
 gem 'config'
+
+gem 'sqlite3'
+
+gem 'sequel'

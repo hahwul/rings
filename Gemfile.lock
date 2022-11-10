@@ -75,6 +75,8 @@ DEPENDENCIES
   rake (~> 13.0)
   rings!
   rspec (~> 3.0)
+  sequel
+  sqlite3
   thor
 
 BUNDLED WITH
