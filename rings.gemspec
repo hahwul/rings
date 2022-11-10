@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_runtime_dependency 'config', '~> 4.0.0'
-  spec.add_runtime_dependency 'thor', '~> 1.2.1'
   spec.add_runtime_dependency 'sequel', '~> 5.62.0'
   spec.add_runtime_dependency 'sqlite3', '~> 1.5.3'
+  spec.add_runtime_dependency 'thor', '~> 1.2.1'
 end

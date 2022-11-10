@@ -30,13 +30,13 @@ module Rings
         File.write Rings::DEFAULT_CONFIG[:config], Rings::DEFAULT_CONFIG.to_yaml
       end
 
-      if File.exist? "#{Rings::DEFAULT_CONFIG[:db]}"
+      if File.exist? (Rings::DEFAULT_CONFIG[:db]).to_s
         puts "Exist database file in #{Rings::DEFAULT_CONFIG[:db]}"
       else
-        RingsDB::init
+        RingsDB.init
         puts "Create a database file in #{Rings::DEFAULT_CONFIG[:db]}"
       end
-        
+
       workspace = options.workspace
       workspace = Rings::DEFAULT_CONFIG[:workspace] if workspace == ''
 
@@ -56,13 +56,13 @@ module Rings
       workspace = options.workspace
       workspace = Rings::DEFAULT_CONFIG[:workspace] if workspace == ''
 
-      RingsDB::new name
+      RingsDB.new name
     end
 
     desc 'list', 'Show Projects list'
     def list
       puts 'List mode'
-      RingsDB::list
+      RingsDB.list
     end
 
     desc 'version', 'Show version.'
